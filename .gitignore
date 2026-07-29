@@ -1,0 +1,20 @@
+# Credentials and local configuration
+.env
+.env.*
+*.pem
+*.key
+
+# Project data and generated workbooks
+*.xlsx
+*.xls
+*.csv
+*.tsv
+inputs/
+working/
+outputs/
+
+# Local caches
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
