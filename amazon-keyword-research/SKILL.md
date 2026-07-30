@@ -1,62 +1,78 @@
 ---
 name: amazon-keyword-research
-description: Build, clean, classify, score, and rank an Amazon product keyword universe from seed ASINs, competitor layers, SellerSprite keyword-reverse-search exports, product-search exports, and optional advertising data. Use when Codex needs to discover natural and sponsored keywords, judge keyword coverage, select additional competitor ASINs, produce a source-data plus keyword-ranking Excel workbook, or recommend organic and advertising keyword priorities for an Amazon marketplace.
+description: Build, clean, classify, score, and rank an Amazon keyword universe from a verified formal product pool, SellerSprite reverse-ASIN exports, PPC search-term data, Brand Analytics, and optional historical keyword files. Use when Codex needs to discover natural and sponsored keywords, evaluate keyword coverage, rank terms by conversion opportunity and CPC, or recommend organic and advertising keyword priorities. Use amazon-product-data-mining first when the product pool has not yet been defined and verified.
 ---
 
 # Amazon Keyword Research
 
-Create a traceable Amazon keyword universe that can be used independently or passed to a larger market-analysis workflow.
+Build an auditable Amazon keyword universe without coupling product identity decisions to keyword scoring.
 
-## Operating boundaries
+## Boundaries
 
-- Keep account credentials, cookies, API keys, verification codes, and seller identity data out of the skill and its outputs.
-- Treat every product and marketplace as a separate project. Never reuse a prior project's rows unless the user explicitly supplies them as an input.
-- Keep raw exports unchanged. Write cleaned and calculated data to a new workbook.
-- State whether the result is a sampled market vocabulary or a near-complete vocabulary. Never claim complete coverage without passing the coverage checks.
-- Separate source observations from calculated scores and analyst judgments.
+- Never store credentials, cookies, API keys, verification codes, or seller identity data.
+- Treat each marketplace and product project independently.
+- Preserve raw exports; write normalization, classification, and scores to new columns.
+- Treat missing metrics as unknown, never as zero.
+- Never claim complete keyword coverage solely from seed ASINs or four head competitors.
+- Keep product inclusion/exclusion logic in `amazon-product-data-mining`.
 
-## Required inputs
+## Upstream dependency
 
-Accept one or more of:
+Prefer the `正式产品池` worksheet produced by `amazon-product-data-mining`.
 
-- Seed ASINs and marketplace.
-- Product sales/search-result exports used to construct competitor layers.
-- Keyword reverse-search exports for the selected ASINs.
-- Optional PPC search-term, campaign, Brand Analytics, or historical keyword exports.
+Accept these canonical fields when present:
 
-Before processing, record the marketplace, observation period, export time, source tool, currency, and file list. Read [references/input-contract.md](references/input-contract.md) for required field mapping.
+- ASIN, brand, title, sales, revenue, price, listing age.
+- Product form, signal path, core specifications, and verification status.
+- Source query and source-file lineage.
+
+If no verified product pool exists:
+
+1. Ask for product sales exports or run `amazon-product-data-mining`.
+2. If the user wants to proceed anyway, label the result `探索性词库`.
+3. Do not use unverified products to claim market-wide coverage.
+
+Read [references/input-contract.md](references/input-contract.md) before mapping files.
 
 ## Workflow
 
-### 1. Define the product boundary
+### 1. Select keyword-source ASINs from the formal pool
 
-Describe the product's core job, required physical form, key compatibility conditions, and exclusions. Use these rules to remove keyword-matched but functionally different products.
+Build a stratified ASIN set, not only a top-sales list:
 
-If exclusions are uncertain, retain borderline products with `相关性状态=待复核`; do not silently delete them.
+- Head links by sales and revenue.
+- Mainstream products by price and feature configuration.
+- New challengers with meaningful sales velocity.
+- Premium or differentiated products.
+- Extension forms such as splitter, switch, or matrix variants.
+- Long-tail products contributing distinct use cases or vocabulary.
 
-### 2. Build competitor layers
+Record the selection layer and reason for every ASIN. Weight keyword evidence by sales relevance without allowing one dominant link to define the entire vocabulary.
 
-When sales data is available, select competitors across all material market layers:
+### 2. Export reverse-ASIN keywords efficiently
 
-- Head links: highest sales or revenue.
-- Mainstream links: representative price, features, and sales.
-- New challengers: recently listed products with meaningful sales velocity.
-- Premium or differentiated links: high-price or distinctive-feature products.
-- Long-tail links: lower-volume products that introduce unique use cases or vocabulary.
+Batch ASINs when the source tool supports it. Prefer one representative batch per product layer over one export per ASIN.
 
-Prefer vocabulary coverage over selecting only the highest-selling links. Record the selection reason for every ASIN.
+Collect, where available:
 
-### 3. Ingest and normalize keyword rows
+- Natural keywords and ranks.
+- Sponsored keywords and ranks.
+- Search volume, purchase volume, conversion rate, CPC, SPR.
+- Competing products, title density, click concentration, and trend.
+
+Keep the export period, marketplace, source tool, and filename.
+
+### 3. Normalize and retain lineage
 
 - Preserve every source row in `源数据`.
-- Normalize case, surrounding spaces, punctuation variants, singular/plural variants, and obvious encoding artifacts.
-- Keep both the original keyword and normalized keyword.
-- Do not merge semantically different terms merely because they share tokens.
-- Attach source ASIN, source type, marketplace, period, and source filename.
+- Keep original and normalized keyword values.
+- Normalize case, whitespace, punctuation, obvious encoding errors, and equivalent singular/plural forms.
+- Do not merge semantically different phrases merely because they share tokens.
+- Attach source ASIN, product layer, source type, source file, worksheet, and row number.
 
-### 4. Classify intent
+### 4. Classify relevance and intent
 
-Classify each normalized keyword into one primary group:
+Assign one primary class:
 
 - 核心大词
 - 精准产品词
@@ -68,57 +84,49 @@ Classify each normalized keyword into one primary group:
 - 泛流量词
 - 无关词
 
-Also label funnel stage, relevance, and whether the term is suitable for organic ranking, advertising, both, observation only, or exclusion.
+Also assign funnel stage and deployment eligibility: organic, advertising, both, observation, or exclusion.
+
+Use the verified product definition and formal-pool attributes to judge relevance. Do not redefine the product boundary here.
 
 ### 5. Aggregate evidence
 
-Aggregate duplicate normalized keywords while retaining source lineage. Calculate, where fields exist:
+Aggregate normalized keywords while retaining all source ASINs and files. Calculate when fields exist:
 
-- Number and share of source ASINs covering the keyword.
+- Covering ASIN count and weighted sales coverage.
 - Natural-ranking and sponsored-ranking evidence.
-- Search volume and trend.
-- Purchase volume, conversion rate, click concentration, title density, competing products, SPR, and CPC.
-- Sales contribution or PPC orders from first-party advertising data.
-
-Never treat missing values as zero. Use explicit missing-data flags.
+- Search and purchase volume, conversion rate, and trend.
+- CPC, competing products, title density, SPR, and concentration.
+- First-party PPC clicks, orders, sales, ACOS, and search-term conversion.
 
 ### 6. Score and rank
 
-Read [references/ranking-model.md](references/ranking-model.md). Produce separate component scores for:
+Read [references/ranking-model.md](references/ranking-model.md).
 
-- Relevance.
-- Demand.
-- Conversion evidence.
-- Competition difficulty.
-- Bid cost.
-- Market coverage.
-- Strategic fit.
+Keep visible component scores for relevance, demand, conversion, competition accessibility, market coverage, and bid efficiency. Add a confidence grade. Do not calculate a high-confidence overall score when critical evidence is missing.
 
-Keep the component scores visible. Calculate an overall opportunity score only when minimum evidence requirements are met. Add a confidence grade so a high score based on sparse data is not mistaken for a reliable conclusion.
+### 7. Test vocabulary coverage
 
-### 7. Test coverage
+Measure:
 
-Evaluate coverage by:
+- Incremental relevant keywords contributed by each ASIN batch.
+- Weighted sales coverage of the selected ASINs.
+- Coverage across product forms, price bands, features, listing ages, and product layers.
+- Stabilization of relevant core terms.
 
-- Incremental unique keywords contributed by each additional ASIN.
-- Share of material sales represented by selected competitors.
-- Coverage of product forms, prices, features, ages, and market layers.
-- Stabilization of core relevant vocabulary after successive ASIN batches.
+Mark `核心词库基本稳定` only when marginal relevant contribution has flattened under a documented threshold. Otherwise mark `待扩展` and name the missing layer.
 
-Mark the vocabulary `待扩展` when important layers are absent or new ASIN batches still contribute substantial relevant core terms. Mark it `核心词库基本稳定` only when the marginal relevant contribution has materially flattened; explain the threshold used.
+### 8. Produce exactly two worksheets
 
-### 8. Produce the workbook
+Unless the user requests otherwise:
 
-Default to exactly two worksheets unless the user asks otherwise:
+1. `源数据`
+2. `关键词排序`
 
-1. `源数据`: source-preserving rows plus normalized fields and lineage.
-2. `关键词排序`: one row per normalized keyword with evidence, component scores, overall score, confidence, strategy labels, and calculation notes.
+Follow [references/output-contract.md](references/output-contract.md). Keep formulas or calculation notes visible.
 
-Follow [references/output-contract.md](references/output-contract.md). Put formulas or auditable calculation descriptions in the workbook. Do not hide ranking logic in prose.
+### 9. Recommend deployment
 
-### 9. Recommend keyword deployment
-
-When budget and product positioning are supplied, segment keywords into:
+When budget, margin, target ACOS, and product positioning are provided, classify terms into:
 
 - Organic position priorities.
 - Exact-match advertising priorities.
@@ -127,16 +135,13 @@ When budget and product positioning are supplied, segment keywords into:
 - Negative keyword candidates.
 - Deferred observation terms.
 
-Do not recommend bids or budget allocation without stating the CPC source period, conversion assumptions, target ACOS, and confidence.
+State CPC period, conversion assumptions, economic constraints, and confidence before recommending bids or budget allocation.
 
 ## Quality gate
 
-Before delivery:
-
-- Reconcile source row counts and unique keyword counts.
-- Confirm excluded rows remain traceable.
-- Check formulas, units, percentages, currencies, and missing-value handling.
-- Verify that rankings change for defensible reasons rather than missing data.
-- State known gaps, coverage status, and the next most valuable data to add.
-- Keep project-specific conclusions outside the reusable skill folder.
-
+- Reconcile source rows, normalized keywords, and unique-keyword counts.
+- Confirm every keyword traces to source ASINs and files.
+- Confirm source ASINs belong to the formal product pool or are explicitly marked exploratory.
+- Verify excluded terms remain traceable.
+- Check formulas, units, currency, percentage scales, and missing-value handling.
+- State coverage status, gaps, and the next most valuable ASIN layer or data source.

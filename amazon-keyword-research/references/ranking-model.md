@@ -3,15 +3,15 @@
 ## Principles
 
 1. Rank opportunity, not search volume alone.
-2. Keep demand, conversion, competition, cost, and relevance as separate visible components.
-3. Normalize metrics within the current marketplace and product project.
-4. Winsorize or log-transform highly skewed volume and competition fields before min-max scoring.
+2. Keep demand, conversion, competition, cost, relevance, and coverage visible.
+3. Normalize within the current marketplace and project.
+4. Transform highly skewed volume and competition fields before min-max scoring.
 5. Treat missing values as unknown, not zero.
-6. Reduce confidence when evidence comes from few ASINs or a single source.
+6. Reduce confidence when evidence comes from few formal-pool ASINs or one source.
 
-## Default component model
+## Default model
 
-Use a 0–100 scale:
+Use a 0-100 scale:
 
 - Relevance: 25%
 - Demand: 20%
@@ -22,46 +22,45 @@ Use a 0–100 scale:
 
 `Opportunity = 0.25R + 0.20D + 0.20V + 0.15A + 0.10M + 0.10B`
 
-This is a starting model, not a universal truth. Reweight only after documenting the product stage, objective, and available fields.
+Document any change to these weights.
 
 ### Relevance
 
-Combine product-job match, form match, compatibility match, and purchase-intent specificity. Hard-excluded terms receive no opportunity score.
+Combine product-job match, product-form match, compatibility match, and purchase-intent specificity. Hard-excluded terms receive no opportunity score.
 
 ### Demand
 
-Use transformed search or purchase volume and trend. Avoid allowing one head term to dominate solely because of scale.
+Use transformed search or purchase volume and trend. Prevent one head term from dominating solely because of scale.
 
 ### Conversion evidence
 
-Prefer first-party orders and conversion rate. Otherwise use source purchase rate, multiple-ASIN rank evidence, or other clearly labelled proxies.
+Prefer first-party orders and conversion rate. Otherwise use source purchase rate, multi-ASIN rank evidence, or clearly labeled proxies.
 
 ### Competition accessibility
 
-Score higher when ranking difficulty, competing products, title density, click concentration, and dominant-ASIN strength are lower. Keep the original competition metrics visible.
+Score higher when ranking difficulty, competing products, title density, click concentration, and dominant-ASIN strength are lower.
 
 ### Market coverage
 
-Score based on the number and weighted share of relevant competitor ASINs associated with the term. Weight evidence from representative competitors more than irrelevant or fringe links.
+Use both covering-ASIN count and weighted formal-pool sales coverage. Weight representative products more than fringe links.
 
 ### Bid efficiency
 
-Compare CPC with economic value. When unit economics are absent, treat CPC as a relative cost signal and lower confidence.
+Compare CPC with economic value. Without unit economics, use CPC only as a relative cost signal and reduce confidence.
 
 ## Confidence grade
 
-- A: multiple independent sources, broad competitor coverage, and no critical missing component.
+- A: multiple independent sources, broad formal-pool coverage, and no critical missing component.
 - B: good multi-ASIN evidence with one non-critical component missing.
-- C: limited ASIN/source coverage or reliance on proxy conversion evidence.
-- D: sparse or contradictory evidence; keep for observation rather than action.
+- C: limited ASIN/source coverage or proxy conversion evidence.
+- D: sparse or contradictory evidence; observation only.
 
 ## Strategy labels
 
-- Core defend/build: high relevance, high demand, strong conversion evidence.
-- Exact test: high relevance and acceptable cost with sufficient confidence.
-- Long-tail capture: strong relevance/conversion but lower demand.
-- Discovery: plausible relevance with weak evidence; use controlled phrase/broad tests.
-- Organic first: expensive CPC but strong strategic relevance.
-- Advertising first: attainable paid placement while organic evidence is weak.
-- Negative candidate: irrelevant or repeatedly costly without conversion.
-
+- Core defend/build.
+- Exact test.
+- Long-tail capture.
+- Discovery.
+- Organic first.
+- Advertising first.
+- Negative candidate.

@@ -1,0 +1,106 @@
+---
+name: amazon-product-data-mining
+description: Define an Amazon product by its unique functional signal path, merge and deduplicate product-search or sales exports, verify product identity, exclude keyword-matched false positives, extract product-specific Listing specifications, and produce a formal product pool plus integrated source-data workbook. Use when Codex needs to determine which Amazon ASINs truly belong to a target market before keyword research, market sizing, competitive analysis, or product opportunity analysis.
+---
+
+# Amazon Product Data Mining
+
+Create a verified Amazon product pool before calculating market size or mining competitor keywords.
+
+## Boundaries
+
+- Never store credentials, cookies, API keys, verification codes, or seller identity data.
+- Treat every marketplace, product, and observation period as a separate project.
+- Preserve raw exports and source lineage.
+- Define the product by function and signal path, not by title keywords or category alone.
+- Do not place a product in the formal pool until the required functional gates are proven.
+- Leave a specification blank when the current ASIN Listing does not explicitly state it.
+- Keep keyword discovery and scoring in `amazon-keyword-research`.
+
+## Required inputs
+
+Accept marketplace, observation period, several core search terms, product sales/search exports, optional seed ASINs, and optional positive or negative examples.
+
+Record source filename, query term, marketplace, period, export time, currency, and row count. Read [references/input-contract.md](references/input-contract.md).
+
+## Workflow
+
+### 1. Merge sales exports
+
+- Preserve all original columns.
+- Add source query, source file, and source-row lineage.
+- Validate ASIN format.
+- Deduplicate by ASIN before sales or revenue calculations.
+- Select the most complete row as canonical while retaining every matched query and file.
+- Never sum duplicate ASIN sales across search-query exports.
+
+### 2. Define the product before excluding products
+
+Write the core job, required input, retained output or form, extracted/transformed output, allowed extensions, and adjacent products that must remain distinguishable.
+
+Translate the definition into auditable gates. For HDMI audio extractors, read [references/hdmi-audio-extractor-definition.md](references/hdmi-audio-extractor-definition.md).
+
+Do not create an exclusion list first. Establish the positive definition, then test every candidate against it.
+
+### 3. Run title-level triage
+
+Use title and downloaded attributes only to prioritize:
+
+- Strong candidate.
+- Strong non-target.
+- Borderline/needs Listing verification.
+
+Title triage is not final product identity. Retain every row in integrated source data.
+
+### 4. Verify product identity
+
+For each candidate, capture required input evidence, retained output/pass-through evidence, independent extracted output evidence, extraction/de-embedding evidence, conversion direction, product form, evidence URL, and evidence position.
+
+Classify as `正式合格`, `已排除`, `待核验`, or `证据冲突`.
+
+Use current-ASIN Listing content where accessible. If only Listing title and downloaded attributes are available, label the evidence level accordingly and do not imply full-page verification.
+
+### 5. Extract product-specific Listing parameters
+
+Infer a compact parameter schema from repeated market attributes, then confirm it with the user when practical.
+
+- Keep one analytical column per parameter.
+- Use controlled values suitable for pivot tables.
+- Allow multi-select values in one cell only where required.
+- Do not infer one field from another.
+- Do not copy specifications between ASINs.
+- Record conflicts rather than choosing the more favorable claim.
+
+Read [references/listing-parameter-contract.md](references/listing-parameter-contract.md).
+
+### 6. Build the formal pool
+
+Include only products satisfying every hard gate. Keep extension forms, such as splitter, switch, or matrix products with the core function, but classify their form separately.
+
+Do not calculate market capacity from pending or excluded rows.
+
+### 7. Produce exactly three worksheets
+
+Unless the user requests otherwise:
+
+1. `正式产品池`
+2. `产品定义与准入规则`
+3. `整合源数据`
+
+Follow [references/output-contract.md](references/output-contract.md).
+
+### 8. Hand off downstream
+
+- Pass `正式产品池` ASINs to `amazon-keyword-research`.
+- Pass the formal pool and specification columns to market, competition, lifecycle, pricing, and feature analysis.
+- Keep excluded rows for contamination audits.
+
+## Quality gate
+
+- Reconcile raw, valid, duplicate, unique, formal, pending, and excluded counts.
+- Confirm no ASIN appears more than once in integrated source data.
+- Confirm known counterexamples remain excluded.
+- Confirm formal products have evidence for every hard gate.
+- Confirm blank specifications mean “not explicitly found,” not “unsupported.”
+- Confirm output contains exactly the three contracted worksheets.
+- State the evidence level and products requiring deeper verification.

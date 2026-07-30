@@ -1,4 +1,4 @@
 interface:
   display_name: "亚马逊关键词挖掘"
-  short_description: "从竞品ASIN与卖家精灵数据扩展、清洗、评分并排序亚马逊关键词"
-  default_prompt: "Use $amazon-keyword-research to build and rank an Amazon keyword universe from ASIN and sales exports."
+  short_description: "基于正式产品池挖掘、清洗、评分并排序亚马逊关键词"
+  default_prompt: "Use $amazon-keyword-research to build and rank an Amazon keyword universe from a verified formal product pool."
