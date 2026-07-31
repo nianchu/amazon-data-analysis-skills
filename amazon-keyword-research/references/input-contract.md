@@ -4,30 +4,48 @@
 
 Record:
 
-- Marketplace and language
-- Analysis period and export time
-- Currency
-- Source tool and export type
-- Source filename
-- Seed ASIN list
-- Selected competitor ASIN list and selection reason
-- Product inclusion and exclusion rules
+- Marketplace code, Amazon domain, country, Listing/search language, currency, timezone, and analysis period.
+- Export time, source tool, export type, and source filename.
+- Upstream formal-product-pool filename and version.
+- Product definition version.
+- Selected keyword-source ASINs, product layer, and selection reason.
+
+## Formal product pool
+
+Prefer these fields:
+
+| Field | Meaning |
+|---|---|
+| ASIN | Verified product identifier |
+| Listing核验状态 | Must be `正式合格` for normal inclusion |
+| 产品形态（核验后） | Standard or extension form |
+| 信号路径（核验后） | Verified functional path |
+| 品牌 | Brand |
+| 商品标题 | Listing title |
+| 月销量 | Current-period sales |
+| 月销售额 | Current-period revenue |
+| 价格 | Current price |
+| 上架时间/上架天数 | Product age |
+| 规格参数列 | Product-specific verified fields |
+
+Do not silently include rows marked excluded, pending, or insufficient evidence.
 
 ## Keyword row mapping
 
-Map source columns to these canonical fields when available:
+Map source columns when available:
 
 | Canonical field | Meaning |
 |---|---|
 | original_keyword | Exact source keyword |
 | normalized_keyword | Cleaned aggregation key |
 | source_asin | ASIN producing the observation |
+| source_product_layer | Head, mainstream, challenger, premium, extension, or long-tail |
 | source_type | Natural, sponsored, reverse-search, PPC, ABA, or other |
 | natural_rank | Observed natural rank |
 | sponsored_rank | Observed sponsored rank |
 | search_volume | Search volume for the stated period |
 | purchase_volume | Purchase volume for the stated period |
-| conversion_rate | Purchases divided by searches/clicks according to source definition |
+| conversion_rate | Source-defined conversion rate |
 | cpc | CPC and currency |
 | competing_products | Competing product count |
 | title_density | Source-defined title density |
@@ -36,20 +54,6 @@ Map source columns to these canonical fields when available:
 | source_file | Exact filename |
 | source_row | Original worksheet and row number |
 
-Do not invent unavailable values. Preserve unmapped source columns in `源数据`.
+Preserve unmapped source columns in `源数据`. Never invent unavailable values.
 
-## Product sales data
-
-When used for competitor selection, retain at least:
-
-- ASIN and parent/child relationship if available
-- Brand and title
-- Price
-- Sales and revenue
-- Review count and rating
-- Listing date or age
-- Category
-- Source keyword/query
-
-Deduplicate products before calculating market shares, but keep a lineage table or source markers showing every query that returned the ASIN.
-
+Do not combine keyword observations from different marketplaces in one ranking table unless the user requests an explicitly normalized cross-market comparison.
