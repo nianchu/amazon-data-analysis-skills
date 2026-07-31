@@ -2,7 +2,7 @@
 
 ## Project metadata
 
-Record the target product, marketplace, language, analysis period, currency, export tool, export time, source query for each file, seed ASINs, and user-provided examples.
+Record the target product, marketplace code, Amazon domain, marketplace country, Listing language, analysis period, currency, export tool, export time, source query for each file, seed ASINs, and user-provided examples.
 
 ## Minimum product fields
 
@@ -24,3 +24,5 @@ Retain when available:
 - Never add sales values from duplicate query hits.
 - Preserve query/file lineage in delimited lineage columns.
 - Mark placeholder, malformed, or suspicious values instead of silently accepting them.
+- Never merge ASIN observations from different marketplaces into one formal pool merely because the ASIN is identical.
+- Normalize currency only in a separate calculated field; preserve the original marketplace currency.

@@ -1,5 +1,7 @@
 # HDMI audio extractor definition
 
+This is a product-specific case reference. Do not apply its gates or parameter schema to unrelated products.
+
 ## Core definition
 
 An HDMI audio extractor receives a standard HDMI audio/video source, retains an HDMI video output or pass-through path, and extracts/de-embeds an independent audio output from that same HDMI signal.

@@ -1,6 +1,6 @@
 ---
 name: amazon-keyword-research
-description: Build, clean, classify, score, and rank an Amazon keyword universe from a verified formal product pool, SellerSprite reverse-ASIN exports, PPC search-term data, Brand Analytics, and optional historical keyword files. Use when Codex needs to discover natural and sponsored keywords, evaluate keyword coverage, rank terms by conversion opportunity and CPC, or recommend organic and advertising keyword priorities. Use amazon-product-data-mining first when the product pool has not yet been defined and verified.
+description: Build, clean, classify, score, and rank high-conversion Amazon keywords for any marketplace from a verified formal product pool, reverse-ASIN exports, PPC search-term data, Brand Analytics, and optional historical files. Use when Codex needs to discover natural and sponsored terms, evaluate local-market keyword coverage, rank terms by conversion opportunity and CPC, or recommend organic and advertising priorities. Use amazon-product-data-mining first when the product pool has not been defined and verified.
 ---
 
 # Amazon Keyword Research
@@ -15,6 +15,7 @@ Build an auditable Amazon keyword universe without coupling product identity dec
 - Treat missing metrics as unknown, never as zero.
 - Never claim complete keyword coverage solely from seed ASINs or four head competitors.
 - Keep product inclusion/exclusion logic in `amazon-product-data-mining`.
+- Treat every Amazon marketplace, language, currency, and observation period as an isolated keyword project.
 
 ## Upstream dependency
 
@@ -33,6 +34,7 @@ If no verified product pool exists:
 3. Do not use unverified products to claim market-wide coverage.
 
 Read [references/input-contract.md](references/input-contract.md) before mapping files.
+Read [references/marketplace-adaptation.md](references/marketplace-adaptation.md) when working outside the original marketplace or comparing sites.
 
 ## Workflow
 
@@ -104,6 +106,8 @@ Read [references/ranking-model.md](references/ranking-model.md).
 
 Keep visible component scores for relevance, demand, conversion, competition accessibility, market coverage, and bid efficiency. Add a confidence grade. Do not calculate a high-confidence overall score when critical evidence is missing.
 
+Create a separate `高转化优先级` based primarily on observed orders, conversion rate, purchase volume, and multi-ASIN organic/sponsored rank evidence. Do not label a keyword high-conversion from search volume or CPC alone.
+
 ### 7. Test vocabulary coverage
 
 Measure:
@@ -142,6 +146,7 @@ State CPC period, conversion assumptions, economic constraints, and confidence b
 - Reconcile source rows, normalized keywords, and unique-keyword counts.
 - Confirm every keyword traces to source ASINs and files.
 - Confirm source ASINs belong to the formal product pool or are explicitly marked exploratory.
+- Confirm keyword language, search-volume source, CPC currency, and marketplace all match.
 - Verify excluded terms remain traceable.
 - Check formulas, units, currency, percentage scales, and missing-value handling.
 - State coverage status, gaps, and the next most valuable ASIN layer or data source.

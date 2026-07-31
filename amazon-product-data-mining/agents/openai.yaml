@@ -1,4 +1,4 @@
 interface:
   display_name: "亚马逊产品数据挖掘"
-  short_description: "定义产品边界、构建正式产品池并挖掘Listing规格参数"
-  default_prompt: "Use $amazon-product-data-mining to define an Amazon product, build a verified product pool, and extract Listing parameters."
+  short_description: "为任意亚马逊站点定义产品唯一性、构建产品池并挖掘参数"
+  default_prompt: "Use $amazon-product-data-mining to define a product uniquely and build a verified product pool for an Amazon marketplace."

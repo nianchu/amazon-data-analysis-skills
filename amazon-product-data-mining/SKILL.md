@@ -1,6 +1,6 @@
 ---
 name: amazon-product-data-mining
-description: Define an Amazon product by its unique functional signal path, merge and deduplicate product-search or sales exports, verify product identity, exclude keyword-matched false positives, extract product-specific Listing specifications, and produce a formal product pool plus integrated source-data workbook. Use when Codex needs to determine which Amazon ASINs truly belong to a target market before keyword research, market sizing, competitive analysis, or product opportunity analysis.
+description: Define any Amazon product by its unique functional identity, merge and deduplicate product-search or sales exports, verify product identity, exclude keyword-matched false positives, extract product-specific Listing specifications, and produce a formal product pool plus integrated source-data workbook for any Amazon marketplace. Use before keyword research, market sizing, competitive analysis, or product opportunity analysis whenever Codex must determine which ASINs truly belong to a target market.
 ---
 
 # Amazon Product Data Mining
@@ -16,12 +16,13 @@ Create a verified Amazon product pool before calculating market size or mining c
 - Do not place a product in the formal pool until the required functional gates are proven.
 - Leave a specification blank when the current ASIN Listing does not explicitly state it.
 - Keep keyword discovery and scoring in `amazon-keyword-research`.
+- Support every Amazon marketplace; never mix marketplaces, languages, currencies, or observation periods in one product pool.
 
 ## Required inputs
 
 Accept marketplace, observation period, several core search terms, product sales/search exports, optional seed ASINs, and optional positive or negative examples.
 
-Record source filename, query term, marketplace, period, export time, currency, and row count. Read [references/input-contract.md](references/input-contract.md).
+Record source filename, query term, marketplace, domain, language, period, export time, currency, and row count. Read [references/input-contract.md](references/input-contract.md) and [references/marketplace-adaptation.md](references/marketplace-adaptation.md).
 
 ## Workflow
 
@@ -36,9 +37,11 @@ Record source filename, query term, marketplace, period, export time, currency, 
 
 ### 2. Define the product before excluding products
 
-Write the core job, required input, retained output or form, extracted/transformed output, allowed extensions, and adjacent products that must remain distinguishable.
+Write the core job, target user/scene, required input or starting state, required output or end state, indispensable mechanism/form, allowed extensions, and adjacent products that must remain distinguishable.
 
-Translate the definition into auditable gates. For HDMI audio extractors, read [references/hdmi-audio-extractor-definition.md](references/hdmi-audio-extractor-definition.md).
+Read [references/product-definition-framework.md](references/product-definition-framework.md) and translate the definition into auditable gates.
+
+Load a product-specific case reference only when it matches the current product. The HDMI audio extractor file is an example and must not be reused as a universal schema: [references/hdmi-audio-extractor-definition.md](references/hdmi-audio-extractor-definition.md).
 
 Do not create an exclusion list first. Establish the positive definition, then test every candidate against it.
 
@@ -62,7 +65,7 @@ Use current-ASIN Listing content where accessible. If only Listing title and dow
 
 ### 5. Extract product-specific Listing parameters
 
-Infer a compact parameter schema from repeated market attributes, then confirm it with the user when practical.
+Infer a new compact parameter schema for every product from repeated Listing attributes, purchase-decision variables, and the product's unique mechanism. Confirm it with the user when practical.
 
 - Keep one analytical column per parameter.
 - Use controlled values suitable for pivot tables.
@@ -71,7 +74,7 @@ Infer a compact parameter schema from repeated market attributes, then confirm i
 - Do not copy specifications between ASINs.
 - Record conflicts rather than choosing the more favorable claim.
 
-Read [references/listing-parameter-contract.md](references/listing-parameter-contract.md).
+Read [references/listing-parameter-contract.md](references/listing-parameter-contract.md). Treat the HDMI field list as one example, not the default for other products.
 
 ### 6. Build the formal pool
 
@@ -104,3 +107,5 @@ Follow [references/output-contract.md](references/output-contract.md).
 - Confirm blank specifications mean “not explicitly found,” not “unsupported.”
 - Confirm output contains exactly the three contracted worksheets.
 - State the evidence level and products requiring deeper verification.
+- Confirm the product-specific definition and schema were created for the current product rather than inherited from an earlier project.
+- Confirm marketplace, language, currency, and period are consistent across the pool.

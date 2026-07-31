@@ -55,6 +55,19 @@ Compare CPC with economic value. Without unit economics, use CPC only as a relat
 - C: limited ASIN/source coverage or proxy conversion evidence.
 - D: sparse or contradictory evidence; observation only.
 
+## High-conversion priority
+
+Keep this separate from the overall opportunity score.
+
+Prefer evidence in this order:
+
+1. First-party PPC or search-term orders and conversion rate.
+2. Marketplace purchase volume or ABA conversion evidence.
+3. Repeated natural and sponsored rank evidence across formal-pool ASINs.
+4. Multi-ASIN coverage weighted by sales relevance.
+
+Search volume, CPC, title density, and competing-product count are not conversion evidence by themselves. When only proxies exist, lower confidence and label the evidence type.
+
 ## Strategy labels
 
 - Core defend/build.

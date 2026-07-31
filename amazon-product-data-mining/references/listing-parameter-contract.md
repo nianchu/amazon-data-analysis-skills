@@ -3,13 +3,17 @@
 ## General rules
 
 - Derive the schema from the target product.
+- Start with the current market's Listings; never inherit the prior product's field list by default.
+- Prioritize variables that distinguish product identity, influence purchase decisions, explain price, or can support a pivot analysis.
 - Keep controlled values consistent in spelling, capitalization, and units.
 - Use one column per analytical variable.
 - Keep missing explicit claims blank.
 - Record contradictory claims as `证据冲突` with both evidence locations.
 - Use the current ASIN only.
 
-## HDMI audio extractor schema
+## Example only: HDMI audio extractor schema
+
+Load this section only for HDMI audio extractors or a directly comparable product.
 
 | Column | Controlled values |
 |---|---|

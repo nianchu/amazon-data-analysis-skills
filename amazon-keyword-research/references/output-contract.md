@@ -37,6 +37,8 @@ Recommended columns:
 - 搜索量
 - 购买量
 - 转化率
+- 高转化优先级
+- 转化证据类型
 - CPC
 - 竞品数
 - 标题密度
@@ -69,3 +71,4 @@ State:
 - Ranking weights and deviations from defaults.
 - Coverage conclusion and unresolved gaps.
 - Recommended next data batch.
+- Marketplace, language, CPC currency, and any localization assumptions.

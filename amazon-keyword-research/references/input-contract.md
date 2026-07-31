@@ -4,7 +4,7 @@
 
 Record:
 
-- Marketplace, language, currency, and analysis period.
+- Marketplace code, Amazon domain, country, Listing/search language, currency, timezone, and analysis period.
 - Export time, source tool, export type, and source filename.
 - Upstream formal-product-pool filename and version.
 - Product definition version.
@@ -55,3 +55,5 @@ Map source columns when available:
 | source_row | Original worksheet and row number |
 
 Preserve unmapped source columns in `源数据`. Never invent unavailable values.
+
+Do not combine keyword observations from different marketplaces in one ranking table unless the user requests an explicitly normalized cross-market comparison.

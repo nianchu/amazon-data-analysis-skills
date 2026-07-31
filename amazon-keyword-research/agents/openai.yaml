@@ -1,4 +1,4 @@
 interface:
   display_name: "亚马逊关键词挖掘"
-  short_description: "基于正式产品池挖掘、清洗、评分并排序亚马逊关键词"
-  default_prompt: "Use $amazon-keyword-research to build and rank an Amazon keyword universe from a verified formal product pool."
+  short_description: "基于正式产品池为任意亚马逊站点挖掘并排序高转化关键词"
+  default_prompt: "Use $amazon-keyword-research to rank high-conversion keywords for a verified product pool in an Amazon marketplace."
