@@ -1,6 +1,6 @@
 ---
 name: amazon-product-data-mining
-description: Define any Amazon product by its unique functional identity, merge and deduplicate product-search or sales exports, verify product identity, exclude keyword-matched false positives, extract product-specific Listing specifications, and produce a formal product pool plus integrated source-data workbook for any Amazon marketplace. Use before keyword research, market sizing, competitive analysis, or product opportunity analysis whenever Codex must determine which ASINs truly belong to a target market.
+description: Define any Amazon product by its unique functional identity, merge and deduplicate all product-search or sales exports, audit every unique ASIN, verify ambiguous identities from Listing titles, images, bullets, A+, manuals, and product pages, extract product-specific specifications, and produce a defensible formal product pool plus integrated source-data workbook for any Amazon marketplace. Use before keyword research, market sizing, competitive analysis, or product opportunity analysis whenever Codex must determine which ASINs truly belong to a target market or recheck a pool for false inclusions and exclusions.
 ---
 
 # Amazon Product Data Mining
@@ -14,6 +14,8 @@ Create a verified Amazon product pool before calculating market size or mining c
 - Preserve raw exports and source lineage.
 - Define the product by function and signal path, not by title keywords or category alone.
 - Do not place a product in the formal pool until the required functional gates are proven.
+- Never treat missing evidence as negative evidence. Use `待深度核验` until a Listing-level check proves inclusion or exclusion.
+- Exclude only with explicit reverse evidence, such as the wrong signal direction, missing indispensable output, or a different core job.
 - Leave a specification blank when the current ASIN Listing does not explicitly state it.
 - Keep keyword discovery and scoring in `amazon-keyword-research`.
 - Support every Amazon marketplace; never mix marketplaces, languages, currencies, or observation periods in one product pool.
@@ -34,6 +36,10 @@ Record source filename, query term, marketplace, domain, language, period, expor
 - Deduplicate by ASIN before sales or revenue calculations.
 - Select the most complete row as canonical while retaining every matched query and file.
 - Never sum duplicate ASIN sales across search-query exports.
+- Reconcile source-row count, valid-ASIN count, duplicate rows beyond first, unique ASIN count, and integrated-table count.
+- Detect same-ASIN title conflicts and metric snapshot conflicts across exports.
+- Mark placeholder or suspicious sentinel values; do not let them improve completeness scoring.
+- Keep one actual source observation as canonical. Never average, sum, or invent conflicting marketplace metrics.
 
 ### 2. Define the product before excluding products
 
@@ -53,15 +59,26 @@ Use title and downloaded attributes only to prioritize:
 - Strong non-target.
 - Borderline/needs Listing verification.
 
-Title triage is not final product identity. Retain every row in integrated source data.
+Title triage is not final product identity and must never be the only reason for a borderline exclusion. Retain every row in integrated source data.
 
 ### 4. Verify product identity
 
-For each candidate, capture required input evidence, retained output/pass-through evidence, independent extracted output evidence, extraction/de-embedding evidence, conversion direction, product form, evidence URL, and evidence position.
+Audit every unique ASIN against the positive gates. For obvious non-targets, record the explicit reverse evidence. For every ambiguous or contradictory ASIN, query the current Listing and capture required input evidence, retained output/pass-through evidence, independent extracted output evidence, extraction/de-embedding evidence, conversion direction, product form, evidence URL, and evidence position.
 
-Classify as `正式合格`, `已排除`, `待核验`, or `证据冲突`.
+Use this evidence order:
 
-Use current-ASIN Listing content where accessible. If only Listing title and downloaded attributes are available, label the evidence level accordingly and do not imply full-page verification.
+1. Interface or connection diagram in Listing images.
+2. Listing bullets and product description.
+3. A+ content.
+4. Manufacturer specification sheet or manual.
+5. Manufacturer/authorized product page.
+6. Title and downloaded attributes only as low-confidence evidence.
+
+Classify as `正式合格`, `已排除`, `待深度核验`, or `证据冲突`.
+
+Use current-ASIN Listing content where accessible. If Amazon is unavailable, use manufacturer or authorized product documentation and record the URL. If only title and downloaded attributes are available, leave the ASIN pending rather than implying full-page verification.
+
+Read [references/full-pool-audit.md](references/full-pool-audit.md) before finalizing a pool or rechecking an allegedly undersized pool.
 
 ### 5. Extract product-specific Listing parameters
 
@@ -82,6 +99,14 @@ Include only products satisfying every hard gate. Keep extension forms, such as 
 
 Do not calculate market capacity from pending or excluded rows.
 
+Before finalizing, run a second-pass contradiction audit:
+
+- Formal rows with wrong-direction terms, ARC/eARC-only behavior, or no independent output.
+- Excluded rows whose evidence shows all hard gates.
+- Products with the same model/form but inconsistent statuses.
+- ASINs whose current Listing identity differs from the downloaded title.
+- Any unresolved ASIN must remain pending; do not force a complete status distribution.
+
 ### 7. Produce exactly three worksheets
 
 Unless the user requests otherwise:
@@ -100,10 +125,14 @@ Follow [references/output-contract.md](references/output-contract.md).
 
 ## Quality gate
 
-- Reconcile raw, valid, duplicate, unique, formal, pending, and excluded counts.
+- Reconcile every source file and query, then raw, valid, duplicate, unique, formal, pending, excluded, and conflict counts.
+- Confirm `source unique ASINs = integrated source rows = formal + pending + excluded + conflicts`.
 - Confirm no ASIN appears more than once in integrated source data.
 - Confirm known counterexamples remain excluded.
 - Confirm formal products have evidence for every hard gate.
+- Confirm exclusions cite explicit reverse evidence rather than missing keywords.
+- Confirm every ambiguous ASIN received Listing-level or manufacturer-level verification.
+- Confirm cross-query title and metric conflicts are recorded and the canonical row is an actual source observation.
 - Confirm blank specifications mean “not explicitly found,” not “unsupported.”
 - Confirm output contains exactly the three contracted worksheets.
 - State the evidence level and products requiring deeper verification.

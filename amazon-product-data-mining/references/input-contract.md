@@ -24,5 +24,7 @@ Retain when available:
 - Never add sales values from duplicate query hits.
 - Preserve query/file lineage in delimited lineage columns.
 - Mark placeholder, malformed, or suspicious values instead of silently accepting them.
+- Treat repeated numeric sentinel/error values as missing for completeness scoring until their meaning is verified.
+- Compare duplicate-ASIN titles and key metrics across source exports; record conflicts and preserve the selected source observation.
 - Never merge ASIN observations from different marketplaces into one formal pool merely because the ASIN is identical.
 - Normalize currency only in a separate calculated field; preserve the original marketplace currency.

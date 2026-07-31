@@ -18,6 +18,12 @@ An HDMI audio extractor receives a standard HDMI audio/video source, retains an 
 
 Prove all G1-G5 conditions for the formal pool.
 
+The decisive test is the complete signal path:
+
+`standard HDMI source → HDMI video output/pass-through + independent extracted audio output`
+
+The words `audio extractor`, a resolution claim, gaming compatibility, or ARC/eARC support do not prove this path by themselves.
+
 ## Allowed extensions
 
 Include separately classified products when they still satisfy G1-G4:
@@ -36,3 +42,13 @@ Include separately classified products when they still satisfy G1-G4:
 - Capture cards, extenders, wireless-HDMI products, cables, and accessories.
 
 Gaming compatibility alone is not an exclusion. A standard HDMI-source extractor used with PS5 or Xbox remains eligible.
+
+## Case-tested boundary rules
+
+- Include an HDMI splitter, switch, matrix, decoder, scaler, or video-wall controller only when its Listing proves an independent extracted audio output in addition to HDMI video output.
+- Exclude a plain HDMI splitter that only duplicates HDMI audio/video to multiple displays.
+- Exclude a TV ARC/eARC adapter that sends TV-return audio to Optical/RCA/3.5mm but has no standard HDMI source input plus video pass-through.
+- Include ARC/eARC products when ARC/eARC is an additional mode and the standard HDMI-source extraction path still exists.
+- Treat `HDMI to Optical/RCA` in a title as ambiguous until the Listing confirms whether HDMI video continues to an HDMI output.
+- A decoder remains eligible when it accepts HDMI, retains HDMI video output, and produces independent decoded audio.
+- If the ASIN Listing is unavailable, use manufacturer or authorized product documentation. Leave it pending when the full path still cannot be proven.
