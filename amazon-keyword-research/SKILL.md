@@ -59,7 +59,8 @@ Collect, where available:
 
 - Natural keywords and ranks.
 - Sponsored keywords and ranks.
-- Search volume, purchase volume, conversion rate, CPC, SPR.
+- Search volume, its period and source definition, purchase volume, conversion rate, CPC, SPR.
+- SellerSprite's displayed supply-demand ratio and its displayed supply count or competing-product basis.
 - Competing products, title density, click concentration, and trend.
 
 Keep the export period, marketplace, source tool, and filename.
@@ -97,8 +98,12 @@ Aggregate normalized keywords while retaining all source ASINs and files. Calcul
 - Covering ASIN count and weighted sales coverage.
 - Natural-ranking and sponsored-ranking evidence.
 - Search and purchase volume, conversion rate, and trend.
-- CPC, competing products, title density, SPR, and concentration.
+- CPC, competing products, title density, SPR, concentration, and SellerSprite supply-demand ratio.
 - First-party PPC clicks, orders, sales, ACOS, and search-term conversion.
+
+Designate the product's `core demand keywords` from verified relevance, purchase intent, multi-ASIN coverage, and conversion evidence. Output each core term's own search volume. Also output a clearly labeled core-term search-volume sum when useful, but state that keyword audiences can overlap and the sum is a demand index rather than deduplicated shopper demand.
+
+Preserve SellerSprite's supply-demand ratio as a source metric. Do not silently recompute or replace it with `search volume / product count`, because SellerSprite's displayed denominator and period may differ. Record the source definition, marketplace, period, and export date. If the field is absent, leave it unknown unless the user explicitly requests a separately labeled calculated proxy.
 
 ### 6. Score and rank
 
@@ -128,6 +133,8 @@ Unless the user requests otherwise:
 
 Follow [references/output-contract.md](references/output-contract.md). Keep formulas or calculation notes visible.
 
+Ensure the ranking worksheet exposes a stable downstream interface for `amazon-product-analysis`: core-demand-keyword flag, search volume, search-volume period, SellerSprite supply-demand ratio, CPC, conversion evidence, relevance, confidence, and calculation notes.
+
 ### 9. Recommend deployment
 
 When budget, margin, target ACOS, and product positioning are provided, classify terms into:
@@ -147,6 +154,7 @@ State CPC period, conversion assumptions, economic constraints, and confidence b
 - Confirm every keyword traces to source ASINs and files.
 - Confirm source ASINs belong to the formal product pool or are explicitly marked exploratory.
 - Confirm keyword language, search-volume source, CPC currency, and marketplace all match.
+- Confirm search-volume period and SellerSprite supply-demand-ratio definition are retained and not silently inferred.
 - Verify excluded terms remain traceable.
 - Check formulas, units, currency, percentage scales, and missing-value handling.
 - State coverage status, gaps, and the next most valuable ASIN layer or data source.
