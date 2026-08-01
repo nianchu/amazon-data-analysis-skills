@@ -32,6 +32,8 @@ Combine product-job match, product-form match, compatibility match, and purchase
 
 Use transformed search or purchase volume and trend. Prevent one head term from dominating solely because of scale.
 
+Keep SellerSprite supply-demand ratio visible as a separate market-balance signal. Do not treat it as conversion evidence, and do not recalculate it unless a separately labeled proxy is explicitly requested.
+
 ### Conversion evidence
 
 Prefer first-party orders and conversion rate. Otherwise use source purchase rate, multi-ASIN rank evidence, or clearly labeled proxies.

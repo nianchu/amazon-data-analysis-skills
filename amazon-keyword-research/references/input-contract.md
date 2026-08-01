@@ -44,10 +44,14 @@ Map source columns when available:
 | natural_rank | Observed natural rank |
 | sponsored_rank | Observed sponsored rank |
 | search_volume | Search volume for the stated period |
+| search_volume_period | Daily, weekly, monthly, or source-defined observation period |
+| search_volume_source | SellerSprite, Brand Analytics, first-party, or other source |
 | purchase_volume | Purchase volume for the stated period |
 | conversion_rate | Source-defined conversion rate |
 | cpc | CPC and currency |
 | competing_products | Competing product count |
+| supply_demand_ratio | SellerSprite displayed supply-demand ratio; preserve the source value |
+| supply_demand_basis | SellerSprite definition, displayed supply count, or denominator note when available |
 | title_density | Source-defined title density |
 | spr | Source-defined launch/ranking estimate |
 | trend | Search trend or period comparison |
@@ -55,5 +59,7 @@ Map source columns when available:
 | source_row | Original worksheet and row number |
 
 Preserve unmapped source columns in `源数据`. Never invent unavailable values.
+
+Do not calculate a replacement value in `supply_demand_ratio` when the SellerSprite field is absent. Put any user-requested proxy in a separate field such as `calculated_supply_demand_proxy`, with its formula and denominator explicitly labeled.
 
 Do not combine keyword observations from different marketplaces in one ranking table unless the user requests an explicitly normalized cross-market comparison.

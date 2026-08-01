@@ -16,6 +16,7 @@ Keep all original columns, then append:
 - 排除原因
 - 关键词主分类
 - 搜索意图
+- 是否核心需求词
 - 数据缺失标记
 
 Do not overwrite source measurements.
@@ -35,12 +36,17 @@ Recommended columns:
 - 自然词证据
 - 广告词证据
 - 搜索量
+- 搜索量口径/周期
+- 搜索量来源
+- 核心需求词搜索量合计（非去重需求指数）
 - 购买量
 - 转化率
 - 高转化优先级
 - 转化证据类型
 - CPC
 - 竞品数
+- 卖家精灵供需比
+- 供需比口径/来源
 - 标题密度
 - SPR
 - 趋势
@@ -59,6 +65,13 @@ Recommended columns:
 - 计算逻辑/备注
 
 Use blank cells or explicit `N/A` for unavailable metrics. Never render unknown as numeric zero.
+
+For downstream product analysis:
+
+- Use `是否核心需求词` to select the approved core-demand set.
+- Preserve each keyword's search volume as the primary demand measure.
+- Treat `核心需求词搜索量合计` as an overlapping demand index, not unique shopper demand.
+- Pass SellerSprite's `供需比` through unchanged with its source definition and period.
 
 ## Delivery notes
 
