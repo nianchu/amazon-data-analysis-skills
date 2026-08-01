@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Review Insight"
+  short_description: "Analyze Amazon reviews, scenarios, pain points, and improvements"
+  default_prompt: "Use $amazon-review-insight to analyze Amazon reviews, usage scenarios, pain points, and product-improvement opportunities."
