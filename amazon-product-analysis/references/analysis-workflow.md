@@ -118,6 +118,15 @@ Build unit economics with:
 - storage, returns, removal/disposal, exchange loss, and advertising;
 - contribution margin before and after advertising.
 
+Calculate first-leg freight through both paths and retain both results:
+
+- `volumetric weight = length × width × height ÷ volumetric divisor`;
+- `volumetric cost = volumetric weight × volumetric-weight rate`;
+- `actual-weight cost = actual packaged weight × actual-weight rate`;
+- `final first-leg cost = MAX(volumetric cost, actual-weight cost)`.
+
+Show the selected method and every input in the workbook. If both methods share one rate, use that rate in both paths; never compare weights first and hide the two cost calculations.
+
 Show base, optimistic, and conservative scenarios. Calculate break-even CPC and ACoS only when conversion rate and unit margin inputs exist.
 
 ## 10. Patent and compliance risk

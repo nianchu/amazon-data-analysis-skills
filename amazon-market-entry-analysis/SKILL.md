@@ -39,9 +39,9 @@ Read [references/interactive-input-checklist.md](references/interactive-input-ch
 
 Ask for marketplace, target product or customer job, seed ASINs if known, intended decision, and desired observation period. Create a project manifest and keep each marketplace isolated.
 
-### Phase 1 — Discover candidate products
+### Phase 1 — Define the seed product and prepare downloads
 
-Propose several initial search terms. Ask the user for product-sales exports for each term and period. Preserve every source file and query.
+Inspect 2–3 seed ASINs, define the product's unique functional identity, and give the user the exact SellerSprite search terms. Ask only for product-sales exports using the same term set for: current latest 30 days, the immediately preceding comparable period, and the same period one year earlier. Preserve every source file, query, period, and export date.
 
 ### Phase 2 — Define the product and verify the pool
 
@@ -51,7 +51,7 @@ Do not calculate market capacity until this phase passes its quality gate.
 
 ### Phase 3 — Build the keyword universe
 
-Choose a stratified ASIN sample from the formal pool. Give the user the exact ASIN batches to reverse. Ask for natural and sponsored terms, ranks, search and purchase volume, conversion evidence, CPC, competition, and SellerSprite supply-demand ratio. Use `amazon-keyword-research` and retain exactly the keyword source and ranking sheets.
+Choose a stratified ASIN sample from the formal pool. Use the authorized, already signed-in SellerSprite session to collect reverse-ASIN natural and sponsored terms, ranks, search and purchase volume, conversion evidence, CPC, competition, and SellerSprite supply-demand ratio. Ask the user to export files only when direct authorized access is blocked. Use `amazon-keyword-research` and retain exactly the keyword source and ranking sheets.
 
 ### Phase 4 — Add historical demand and sales
 
@@ -59,7 +59,7 @@ Ask for like-for-like historical product-sales exports and 24-month keyword hist
 
 ### Phase 5 — Extract Listing parameters
 
-Infer a product-specific schema from purchase-decision variables. Verify every formal-pool ASIN. Leave unmentioned values blank or `Listing未披露`; never infer unsupported values.
+Infer a product-specific schema from purchase-decision variables. Inspect every formal-pool Listing, image, A+, manual, and manufacturer evidence directly when accessible. Leave unmentioned values blank or `Listing未披露`; never infer unsupported values. Do not ask the user to upload Listing supplements unless access is blocked and the missing evidence materially changes a decision.
 
 ### Phase 6 — Analyze reviews
 
@@ -67,7 +67,12 @@ Select review ASINs using sales coverage and stratification. Ask for raw review-
 
 ### Phase 7 — Model profit
 
-Before calculating, ask the user for price, purchase cost, package dimensions, actual weight, volumetric divisor, first-leg rate, return rate, advertising cost, withdrawal cost, storage horizon, and other costs. Query current marketplace referral, FBA fulfillment, and storage fees when possible. Calculate chargeable weight as the higher of actual and volumetric weight.
+Before calculating, ask the user for price, purchase cost, package dimensions, actual weight, volumetric divisor, volumetric-weight rate, actual-weight rate, exchange rate, return rate, advertising cost, withdrawal cost, storage horizon, and other costs. Query current marketplace referral, FBA fulfillment, and storage fees when possible. Calculate both first-leg costs and use the higher result:
+
+- volumetric weight = `length × width × height ÷ volumetric divisor`;
+- volumetric first-leg cost = `volumetric weight × volumetric-weight rate`;
+- actual-weight first-leg cost = `actual packaged weight × actual-weight rate`;
+- final first-leg cost = `MAX(volumetric first-leg cost, actual-weight first-leg cost)`.
 
 ### Phase 8 — Match the user's product and operating plan
 
@@ -75,7 +80,7 @@ Ask for the user's product specifications, claims, images/manuals if available, 
 
 ### Phase 9 — Compliance and patent gate
 
-Inventory supplier certificates, authorization chains, planned claims, power configuration, packaging, and known patents. Treat compliance research and FTO as gates; never state legal clearance without evidence.
+Research marketplace requirements and public patent, trademark, design, certification, and licensing evidence directly. Ask the user only for private supplier certificates or authorization evidence that cannot be obtained publicly and materially affects the gate. Treat compliance research and FTO as gates; never state legal clearance without evidence.
 
 ### Phase 10 — Deliver the decision report
 

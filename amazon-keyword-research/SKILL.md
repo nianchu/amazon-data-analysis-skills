@@ -55,6 +55,8 @@ Record the selection layer and reason for every ASIN. Weight keyword evidence by
 
 Batch ASINs when the source tool supports it. Prefer one representative batch per product layer over one export per ASIN.
 
+When an authorized SellerSprite session is already open, operate it directly and export the required batches. Do not ask the user to upload reverse-ASIN files by default. If direct access or export is blocked, give the user the exact ASIN batches, required fields, marketplace, and period, then request only those exports. Never request credentials or authentication secrets.
+
 Collect, where available:
 
 - Natural keywords and ranks.

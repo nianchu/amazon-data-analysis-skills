@@ -55,7 +55,9 @@ Do not leave stale “pending” statements after a module has been completed.
 - Keyword demand = source search volume, purchase volume, conversion evidence, CPC, competition, and source supply-demand ratio. A sum across overlapping keywords is an index, not unique shoppers.
 - Review theme coverage = unique reviews tagged with a theme divided by deduplicated valid reviews. A review may have multiple themes.
 - Review positive share = positive reviews within the theme divided by reviews tagged with the theme.
-- Chargeable first-leg weight = max(actual packaged weight, volumetric weight).
+- Volumetric first-leg cost = `(length × width × height ÷ volumetric divisor) × volumetric-weight rate`.
+- Actual-weight first-leg cost = `actual packaged weight × actual-weight rate`.
+- Final first-leg cost = `MAX(volumetric first-leg cost, actual-weight first-leg cost)`; retain both calculations and the selected method.
 - Profit = selling price minus purchase, first-leg, referral, FBA, withdrawal, return, storage, advertising, and other costs.
 - Opportunity score = profit 30 + competition accessibility 30 + new-product sell-through 20 + market capacity/trend 20. A compliance or margin blocker overrides the score.
 

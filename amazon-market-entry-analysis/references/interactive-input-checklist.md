@@ -8,15 +8,21 @@ Ask the user for:
 
 - Amazon marketplace and country;
 - product name or the customer problem it solves;
-- 1–5 seed ASINs, if known;
+- 2–3 seed competitor ASINs;
 - whether the decision is product selection, competitor analysis, product design, or launch planning;
 - current period to analyze, normally the latest 30 days.
 
 Then say what initial search terms Codex will propose.
 
-## Phase 1 — Product-sales exports
+## Phase 1 — Seed definition and product-sales exports
 
-Codex provides the exact search terms. Ask the user to export one file per term with:
+Codex first inspects the seed ASINs, defines the product boundary, and provides the exact search terms. Ask the user to export one file per term for these comparable scopes:
+
+- current latest 30 days;
+- immediately preceding comparable 30 days or previous complete month;
+- the same date range or same month one year earlier.
+
+All periods must use the same search-term set. Each file should retain:
 
 - ASIN and parent/child identifiers when available;
 - title, brand, category, price;
@@ -43,9 +49,9 @@ Ask the user only for known positive/negative examples or a boundary decision th
 
 Phase output: formal product pool, product definition/rules, integrated source data.
 
-## Phase 3 — Reverse-ASIN keyword files
+## Phase 3 — Reverse-ASIN keyword acquisition
 
-Codex gives the user a stratified ASIN batch list. Ask for exports containing:
+Codex selects a stratified ASIN batch list and acquires the reverse-ASIN data through an authorized, already signed-in SellerSprite session when available. Do not make keyword files a default user upload. If direct access is blocked, ask the user for exports containing:
 
 - keyword;
 - natural rank and sponsored rank;
@@ -74,7 +80,7 @@ Codex obtains Google Trends when accessible. Historical product files must run t
 
 The user normally does not need to provide more files. Codex audits formal-pool Listings.
 
-If access is blocked, ask for Listing screenshots, exported HTML/PDF, manuals, connection diagrams, bullets, A+, or manufacturer links.
+If access is blocked, ask for Listing screenshots, manuals, or manufacturer links only when the missing evidence materially changes the analysis. Do not expose a default Listing-upload requirement in the intake form.
 
 Phase output: one controlled analytical column per product-specific parameter.
 
@@ -103,13 +109,16 @@ Always ask before calculating; do not silently reuse historical values:
 - package length, width, height, and units;
 - actual packaged weight;
 - volumetric formula and divisor;
-- first-leg transport mode and rate;
+- volumetric-weight freight rate;
+- actual-weight freight rate;
 - exchange rate;
 - return rate and unsellable-return share if used;
 - advertising cost rate or dollar budget;
 - withdrawal/payment cost;
 - average storage months and launch month;
 - duties, insurance, labels, domestic transport, coupons, Vine, and other unit costs.
+
+Calculate `volumetric weight = L×W×H÷divisor`, `volumetric cost = volumetric weight×volumetric rate`, and `weight cost = actual weight×weight rate`; use `MAX(volumetric cost, weight cost)` as final first-leg cost. If both methods use the same rate, the user may enter the same rate twice.
 
 Codex queries or asks the user to confirm marketplace referral, FBA fulfillment, inbound placement, and storage fees.
 
@@ -125,9 +134,9 @@ Ask for:
 - brand status, review resources, and launch timing;
 - risk tolerance and required decision date.
 
-## Phase 9 — Compliance and patent inputs
+## Phase 9 — Compliance and patent research
 
-Ask for:
+Codex researches public marketplace, certification, licensing, patent, trademark, and design evidence. Do not expose compliance or patent uploads as default intake fields. Ask only for non-public supplier evidence when it is needed:
 
 - supplier certificates and test reports;
 - model numbers covered by each report;

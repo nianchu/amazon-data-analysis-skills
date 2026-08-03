@@ -55,7 +55,7 @@ When profit or launch economics are requested, ask the user for all unavailable 
 - marketplace, target price, currency, and exchange-rate assumption;
 - unit product cost, packaging cost, labeling, inspection, and domestic freight;
 - packed length, width, height, gross weight, and units per carton;
-- first-leg method, chargeable-weight rule, freight rate, duty or HS code, customs, insurance, and receiving cost;
+- first-leg method, volumetric divisor, volumetric-weight rate, actual-weight rate, duty or HS code, customs, insurance, and receiving cost;
 - target inventory age and storage duration;
 - return rate, recoverable-return share, replacement rate, and disposal loss;
 - launch budget, daily ad budget, target ACOS, expected conversion rate, coupon/deal/Vine costs;
