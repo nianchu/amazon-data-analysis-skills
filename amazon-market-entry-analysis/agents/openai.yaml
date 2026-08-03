@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon 市场切入互动分析"
+  short_description: "分阶段索取资料并完成亚马逊产品市场切入决策报告与复盘"
+  default_prompt: "Use $amazon-market-entry-analysis to guide me step by step through an Amazon product market-entry analysis."
